@@ -17,13 +17,23 @@
                                     </td>
                                     <td class="b-none" width="50%">
                                         <h5><b>{{ cart.product.title }}</b></h5>
-                                        <table class="table-borderless" style="font-size: 14px">
+                                        <h4>QTY:</h4>
+                                        <div class="row">
+                                            <div class="col-2 text-center">
+                                                <button class="btn-danger" @click="minQty(cart.id, cart.quantity)"><i class="fas fa-minus-circle"></i></button>
+                                            </div>
+                                            <div class="col-2 text-center">{{ cart.quantity }}</div>
+                                            <div class="col-2 text-center">
+                                                <button class="btn-primary" @click="plusQty(cart.id)"><i class="fas fa-plus-circle"></i></button>
+                                            </div>
+                                        </div>
+                                        <!-- <table class="table-borderless" style="font-size: 14px">
                                             <tr>
                                                 <td style="padding: .20rem">QTY</td>
                                                 <td style="padding: .20rem">:</td>
                                                 <td style="padding: .20rem"><b>{{ cart.quantity }}</b></td>
                                             </tr>
-                                        </table>
+                                        </table> -->
 
                                     </td>
                                     <td class="b-none text-right">
@@ -210,7 +220,7 @@ import { useRouter } from 'vue-router' // vue router
 export default {
 
     setup() {
-
+        
         //store vuex
         const store = useStore()
 
@@ -271,7 +281,8 @@ export default {
             courier_cost:   0,      // <-- state untuk menyimpan cost kurir
             courier_service:'',     // <- state untuk menyimpan service kurir        
             buttonCheckout: false,  // <-- state button checkout 
-            grandTotal:     0       // <-- state untuk grand total 
+            grandTotal:     0,       // <-- state untuk grand total
+            qty: 0
         })
 
         //define state validation
@@ -280,6 +291,21 @@ export default {
             phone:      false, // <-- validation phone
             address:    false  // <-- validation address 
         })
+
+        function plusQty (cartId) {
+            store.dispatch('cart/plusQty', {
+                cart_id: cartId,
+                quantity: 1
+            })
+        }
+
+        function minQty(cartId, qty) {
+            if (qty === 0) return;
+            store.dispatch('cart/minQty', {
+                cart_id: cartId,
+                quantity: 1
+            })
+        }
 
         //mounted data provinces
         const provinces = onMounted(() => {
@@ -438,7 +464,9 @@ export default {
             getCourier,         // <-- get data courier
             getOngkir,          // <-- get data ongkir
             getCostService,     // <-- get cost dan service shipping
-            checkout            // <-- function checkout 
+            checkout,          // <-- function checkout
+            plusQty,
+            minQty
         }
 
     }

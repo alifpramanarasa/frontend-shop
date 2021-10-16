@@ -43,8 +43,7 @@ const cart = {
             state.cart       = []
             state.cartTotal  = 0
             state.cartWeight = 0
-        }
-
+        },
     },
 
     //actions
@@ -73,6 +72,7 @@ const cart = {
                 //get dat cart
                 Api.get('/cart')
                 .then(response => {
+
                     
                     //commit mutation GET_CART
                     commit('GET_CART', response.data.cart)
@@ -235,8 +235,101 @@ const cart = {
 
             })
 
-        }
+        },
+        async plusQty({ commit }, data) {
 
+            //get data token dan user
+            const token = localStorage.getItem('token')
+            // const user  = JSON.parse(localStorage.getItem('user'))
+
+            //set axios header dengan type Authorization + Bearer token
+            Api.defaults.headers.common['Authorization'] = "Bearer " +token
+
+            const req = await Api.post('/cart/plus', {
+                cart_id: data.cart_id,
+                quantity: data.quantity
+            })
+
+            if (!req.data.success) {
+                console.log('--- PLUS QTY FAILED ---')
+                return;
+            }
+
+            const reqCart = await Api.get('/cart');
+
+            if (!reqCart.data.success) {
+                console.log('--- GET CART FAILED ---')
+                return;
+            }
+
+            //get total cart
+            const reqTotal = await Api.get('/cart/total')
+            
+            if (!reqTotal) {
+                console.log('-- GET TOTAL FAILED---');
+                return;
+            }
+
+            //get total cart weight
+            const reqWeight = await Api.get('/cart/totalWeight')
+
+            if (!reqWeight) {
+                console.log('--- GET WEIGHT FAILED');
+                return;
+            }
+        
+            console.log('ALL SUCCESS');
+            commit('CART_WEIGHT', reqWeight.data.total)
+            commit('TOTAL_CART', reqTotal.data.total)
+            commit('GET_CART', reqCart.data.cart)
+        },
+        async minQty({ commit }, data) {
+
+            //get data token dan user
+            const token = localStorage.getItem('token')
+            // const user  = JSON.parse(localStorage.getItem('user'))
+
+            //set axios header dengan type Authorization + Bearer token
+            Api.defaults.headers.common['Authorization'] = "Bearer " +token
+
+            const req = await Api.post('/cart/minus', {
+                cart_id: data.cart_id,
+                quantity: data.quantity
+            })
+
+            if (!req.data.success) {
+                console.log('--- min QTY FAILED ---')
+                return;
+            }
+
+            const reqCart = await Api.get('/cart');
+
+            if (!reqCart.data.success) {
+                console.log('--- GET CART FAILED ---')
+                return;
+            }
+
+            //get total cart
+            const reqTotal = await Api.get('/cart/total')
+            
+            if (!reqTotal) {
+                console.log('-- GET TOTAL FAILED---');
+                return;
+            }
+
+            //get total cart weight
+            const reqWeight = await Api.get('/cart/totalWeight')
+
+            if (!reqWeight) {
+                console.log('--- GET WEIGHT FAILED');
+                return;
+            }
+        
+            console.log('ALL SUCCESS');
+            commit('CART_WEIGHT', reqWeight.data.total)
+            commit('TOTAL_CART', reqTotal.data.total)
+            commit('GET_CART', reqCart.data.cart)
+        }
 
     },
 
