@@ -73,15 +73,15 @@
                         Senin - Minggu ( 07.00 s/d 16.00 )
                     </p>
                     <p>
-                        <i class="fa fa-map-marker"></i> Desa Gedang Alas, RT/RW : 008/002, Kecamatan Gajah, Kabupaten
-                        Demak, Jawa Tengah, 58591
+                        <i class="fa fa-map-marker"></i> Sindang Palay , Kecamatan Cangkuang Kulon, Kabupaten
+                        Bandung, Jawa Barat, 40242
                     </p>
                 </div>
             </div>
             <div class="row text-center mt-3 pb-3">
                 <div class="col-md-12">
                     <hr>
-                    © <strong>Online Shop</strong> 2020 • Hak Cipta Dilindungi
+                    © <strong>Online Shop</strong> 2021 • Hak Cipta Dilindungi
                 </div>
             </div>
         </div>
